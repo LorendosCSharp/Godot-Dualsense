@@ -30,6 +30,7 @@ if env["platform"] == "windows":
 
 elif env["platform"] == "linux":
     env.Append(CXXFLAGS=["-std=c++20"])
+    env.ParseConfig("pkg-config --cflags --libs hidapi-hidraw")
 
 # --- Busca Recursiva de Fontes ---
 sources = []

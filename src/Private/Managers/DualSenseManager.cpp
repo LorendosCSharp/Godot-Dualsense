@@ -7,6 +7,9 @@
 #ifdef _WIN32
 #include "Platforms/Windows/WindowsHardwarePolicy.h"
 #endif
+#ifdef __unix__
+#include "Platforms/Linux/LinuxHardwarePolicy.h"
+#endif
 #include "GCore/Interfaces/IPlatformHardwareInfo.h"
 
 using namespace godot;
@@ -26,10 +29,13 @@ DualSenseManager::~DualSenseManager() {
 void DualSenseManager::_ready() {
     UtilityFunctions::print("[DualSenseManager] Initialize GamepadCore...");
 
-    // 1.Hardware (Windows)
+    // 1.Hardware
 #ifdef _WIN32
     std::unique_ptr<IPlatformHardwareInfo> WindowsInstance = std::make_unique<FWindowsPlatform::FWindowsHardware>();
     IPlatformHardwareInfo::SetInstance(std::move(WindowsInstance));
+#elif defined(__unix__)
+    std::unique_ptr<IPlatformHardwareInfo> LinuxInstance = std::make_unique<FLinuxPlatform::FLinuxHardware>();
+    IPlatformHardwareInfo::SetInstance(std::move(LinuxInstance));
 #endif
 
     FGodotDeviceRegistry::Initialize();
