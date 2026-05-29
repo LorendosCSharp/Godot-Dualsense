@@ -7,7 +7,7 @@ if "build_profile" not in ARGUMENTS:
 
 env = SConscript("godot-cpp/SConstruct")
 
-# --- Configuração do Projeto ---
+# --- Project Configuration ---
 libname = "godot_dualsense"
 plugin_path = "demo/bin"
 
@@ -21,18 +21,21 @@ env.Append(CPPPATH=[
     "src/GamepadCore/Source/Private"
 ])
 
-# --- Flags de Compilação (C++20 Obrigatório) ---
+# --- Compilation Flags (C++20 Required) ---
 if env["platform"] == "windows":
-    # Força C++20 no MSVC
+    # Force C++20 in MSVC
     env.Append(CXXFLAGS=["/std:c++20"])
     env.Append(CPPDEFINES=["UNICODE", "_UNICODE"])
     env.Append(LIBS=["setupapi", "hid"])
 
 elif env["platform"] == "linux":
-    env.Append(CXXFLAGS=["-std=c++20"])
-    env.ParseConfig("pkg-config --cflags --libs hidapi-hidraw")
+    env.Append(CXXFLAGS=[
+        "-std=c++20",
+        "-fexceptions"
+    ])
+    env.ParseConfig("pkg-config --cflags --libs hidapi-hidraw ")
 
-# --- Busca Recursiva de Fontes ---
+# --- Recursive Source Search ---
 sources = []
 for root, dirs, files in os.walk("src"):
     # Skip the GamepadCore Examples/ directory entirely — it's reference code,
@@ -49,7 +52,12 @@ for root, dirs, files in os.walk("src"):
                 continue
             sources.append(file_path)
 
-# --- Compilação ---
+# --- Docs Generation ---
+if env["target"] in ["editor", "template_debug"]:
+    doc_data = env.GodotCPPDocData("src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
+    sources.append(doc_data)
+
+# --- Build ---
 library = env.SharedLibrary(
     target=os.path.join(plugin_path, env["platform"], libname),
     source=sources

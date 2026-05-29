@@ -3,6 +3,8 @@
 #include "GCore/Types/DSCoreTypes.h"
 #include "godot_cpp/classes/object.hpp"
 #include "godot_cpp/core/binder_common.hpp"
+    
+#pragma once
 
 namespace godot {
 class GamepadDefs : public Object {
@@ -134,21 +136,20 @@ protected:
     static void _bind_methods();
 };
 }
-
-VARIANT_ENUM_CAST(godot::GamepadDefs::LedMic);
-VARIANT_ENUM_CAST(godot::GamepadDefs::LedPlayer);
-VARIANT_ENUM_CAST(godot::GamepadDefs::LedBrightness);
-VARIANT_ENUM_CAST(godot::GamepadDefs::AudioFeature);
-VARIANT_ENUM_CAST(godot::GamepadDefs::DeviceFeature);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerSoftness);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerFeedbackIntensity);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerForceIntensity);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerPosition);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerPositionMask);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerForceMask);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerAmplitude);
-VARIANT_ENUM_CAST(godot::GamepadDefs::SnapBack);
-VARIANT_ENUM_CAST(godot::GamepadDefs::WeaponTrigger);
-VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerEffectBehavior);
-VARIANT_ENUM_CAST(godot::GamepadDefs::AutoGunStrength);
-VARIANT_ENUM_CAST(godot::GamepadDefs::GamepadHand);
+VARIANT_ENUM_CAST(godot::GamepadDefs::LedMic)
+VARIANT_ENUM_CAST(godot::GamepadDefs::LedPlayer)
+VARIANT_ENUM_CAST(godot::GamepadDefs::LedBrightness)
+VARIANT_ENUM_CAST(godot::GamepadDefs::AudioFeature)
+VARIANT_ENUM_CAST(godot::GamepadDefs::DeviceFeature)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerSoftness)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerFeedbackIntensity)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerForceIntensity)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerPosition)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerPositionMask)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerForceMask)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerAmplitude)
+VARIANT_ENUM_CAST(godot::GamepadDefs::SnapBack)
+VARIANT_ENUM_CAST(godot::GamepadDefs::WeaponTrigger)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerEffectBehavior)
+VARIANT_ENUM_CAST(godot::GamepadDefs::AutoGunStrength)
+VARIANT_ENUM_CAST(godot::GamepadDefs::GamepadHand)

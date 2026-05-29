@@ -1,3 +1,39 @@
 [gd_scene format=3 uid="uid://b8r1gdl1740w3"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" uid="uid://die5sckhj3gkp" path="res://scripts/test.gd" id="1_mytkl"]
+
+[node name="Node2D" type="Node2D" unique_id=1668375814]
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=600123485]
+offset_right = 1152.0
+offset_bottom = 649.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=95932686]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="ChangeColor" type="Button" parent="PanelContainer/HBoxContainer" unique_id=1698703590]
+layout_mode = 2
+
+[node name="Rumble" type="Button" parent="PanelContainer/HBoxContainer" unique_id=1230953675]
+layout_mode = 2
+
+[node name="RumbleFor" type="Button" parent="PanelContainer/HBoxContainer" unique_id=744982263]
+layout_mode = 2
+
+[node name="PlayerLed" type="Button" parent="PanelContainer/HBoxContainer" unique_id=277167570]
+layout_mode = 2
+
+[node name="MicLed" type="Button" parent="PanelContainer/HBoxContainer" unique_id=2031268865]
+layout_mode = 2
+
+[node name="DualSenseManager" type="DualSenseManager" parent="." unique_id=1039436175]
+script = ExtResource("1_mytkl")
+
+[connection signal="pressed" from="PanelContainer/HBoxContainer/ChangeColor" to="DualSenseManager" method="changeToRandomColor"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Rumble" to="DualSenseManager" method="changeToRandomRumble"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/RumbleFor" to="DualSenseManager" method="changeToRandomRumbleFor"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/PlayerLed" to="DualSenseManager" method="changePlayerLeds"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/MicLed" to="DualSenseManager" method="changeMicrophoneLeds"]

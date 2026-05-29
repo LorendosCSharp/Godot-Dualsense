@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="GamepadDefs" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<constants>
+		<constant name="MIC_ON" value="0" enum="LedMic">
+		</constant>
+		<constant name="MIC_OFF" value="1" enum="LedMic">
+		</constant>
+		<constant name="MIC_PULSE" value="2" enum="LedMic">
+		</constant>
+		<constant name="PLAYER_OFF" value="0" enum="LedPlayer">
+		</constant>
+		<constant name="PLAYER_ONE" value="4" enum="LedPlayer">
+		</constant>
+		<constant name="PLAYER_TWO" value="10" enum="LedPlayer">
+		</constant>
+		<constant name="PLAYER_THREE" value="21" enum="LedPlayer">
+		</constant>
+		<constant name="PLAYER_ALL" value="27" enum="LedPlayer">
+		</constant>
+		<constant name="BRIGHTNESS_LOW" value="3" enum="LedBrightness">
+		</constant>
+		<constant name="BRIGHTNESS_MEDIUM" value="2" enum="LedBrightness">
+		</constant>
+		<constant name="BRIGHTNESS_HIGH" value="0" enum="LedBrightness">
+		</constant>
+		<constant name="AUDIO_ON" value="0" enum="AudioFeature">
+		</constant>
+		<constant name="AUDIO_OFF" value="1" enum="AudioFeature">
+		</constant>
+		<constant name="FEATURE_OFF" value="0" enum="DeviceFeature">
+		</constant>
+		<constant name="DEFAULT_RUMBLE" value="255" enum="DeviceFeature">
+		</constant>
+		<constant name="HAPTICS_RUMBLE" value="252" enum="DeviceFeature">
+		</constant>
+		<constant name="SOFTNESS_OFF" value="0" enum="TriggerSoftness">
+		</constant>
+		<constant name="VERY_RIGID" value="1" enum="TriggerSoftness">
+		</constant>
+		<constant name="RIGID" value="2" enum="TriggerSoftness">
+		</constant>
+		<constant name="MEDIUM_SOFTNESS" value="4" enum="TriggerSoftness">
+		</constant>
+		<constant name="SOFT" value="6" enum="TriggerSoftness">
+		</constant>
+		<constant name="VERY_SOFT" value="8" enum="TriggerSoftness">
+		</constant>
+		<constant name="FEEDBACK_DISABLED" value="0" enum="TriggerFeedbackIntensity">
+		</constant>
+		<constant name="FEEDBACK_LOW" value="1" enum="TriggerFeedbackIntensity">
+		</constant>
+		<constant name="FEEDBACK_MEDIUM" value="2" enum="TriggerFeedbackIntensity">
+		</constant>
+		<constant name="FEEDBACK_HIGH" value="3" enum="TriggerFeedbackIntensity">
+		</constant>
+		<constant name="FORCE_DISABLED" value="0" enum="TriggerForceIntensity">
+		</constant>
+		<constant name="FORCE_LOW" value="1" enum="TriggerForceIntensity">
+		</constant>
+		<constant name="FORCE_MEDIUM" value="2" enum="TriggerForceIntensity">
+		</constant>
+		<constant name="FORCE_HIGH" value="3" enum="TriggerForceIntensity">
+		</constant>
+		<constant name="POS_OFF" value="0" enum="TriggerPosition">
+		</constant>
+		<constant name="POS_START" value="130" enum="TriggerPosition">
+		</constant>
+		<constant name="POS_MIDDLE" value="132" enum="TriggerPosition">
+		</constant>
+		<constant name="POS_BEFORE_END" value="136" enum="TriggerPosition">
+		</constant>
+		<constant name="POS_END" value="128" enum="TriggerPosition">
+		</constant>
+		<constant name="MASK_POS_OFF" value="0" enum="TriggerPositionMask">
+		</constant>
+		<constant name="MASK_POS_START" value="0" enum="TriggerPositionMask">
+		</constant>
+		<constant name="MASK_POS_EARLY" value="64" enum="TriggerPositionMask">
+		</constant>
+		<constant name="MASK_POS_MIDDLE" value="128" enum="TriggerPositionMask">
+		</constant>
+		<constant name="MASK_POS_LATE" value="192" enum="TriggerPositionMask">
+		</constant>
+		<constant name="MASK_POS_END" value="255" enum="TriggerPositionMask">
+		</constant>
+		<constant name="MASK_FORCE_OFF" value="0" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_VERY_LOW" value="32" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_LOW" value="64" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_MEDIUM_LOW" value="96" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_MEDIUM" value="128" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_MEDIUM_HIGH" value="160" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_HIGH" value="192" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_VERY_HIGH" value="224" enum="TriggerForceMask">
+		</constant>
+		<constant name="MASK_FORCE_MAX" value="255" enum="TriggerForceMask">
+		</constant>
+		<constant name="AMP_NONE" value="0" enum="TriggerAmplitude">
+		</constant>
+		<constant name="AMP_LOW" value="10" enum="TriggerAmplitude">
+		</constant>
+		<constant name="AMP_MEDIUM" value="12" enum="TriggerAmplitude">
+		</constant>
+		<constant name="AMP_HIGH" value="15" enum="TriggerAmplitude">
+		</constant>
+		<constant name="SNAP_NONE" value="0" enum="SnapBack">
+		</constant>
+		<constant name="SNAP_LOW" value="58" enum="SnapBack">
+		</constant>
+		<constant name="SNAP_MEDIUM" value="62" enum="SnapBack">
+		</constant>
+		<constant name="SNAP_HIGH" value="63" enum="SnapBack">
+		</constant>
+		<constant name="WEAPON_NONE" value="0" enum="WeaponTrigger">
+		</constant>
+		<constant name="WEAPON_LOW" value="2" enum="WeaponTrigger">
+		</constant>
+		<constant name="WEAPON_MEDIUM" value="4" enum="WeaponTrigger">
+		</constant>
+		<constant name="WEAPON_HIGH" value="10" enum="WeaponTrigger">
+		</constant>
+		<constant name="WEAPON_MAX" value="15" enum="WeaponTrigger">
+		</constant>
+		<constant name="LOCALIZED" value="0" enum="TriggerEffectBehavior">
+		</constant>
+		<constant name="SUSTAINED" value="1" enum="TriggerEffectBehavior">
+		</constant>
+		<constant name="GUN_LIGHT" value="0" enum="AutoGunStrength">
+		</constant>
+		<constant name="GUN_MEDIUM" value="1" enum="AutoGunStrength">
+		</constant>
+		<constant name="GUN_HEAVY" value="2" enum="AutoGunStrength">
+		</constant>
+		<constant name="LEFT_HAND" value="0" enum="GamepadHand">
+		</constant>
+		<constant name="RIGHT_HAND" value="1" enum="GamepadHand">
+		</constant>
+		<constant name="ANY_HAND" value="2" enum="GamepadHand">
+		</constant>
+	</constants>
+</class>

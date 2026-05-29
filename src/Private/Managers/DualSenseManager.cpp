@@ -3,7 +3,6 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include "Adapter/GodotDeviceRegistry.h"
-#include "API/GamepadDefs.h"
 #ifdef _WIN32
 #include "Platforms/Windows/WindowsHardwarePolicy.h"
 #endif
@@ -11,13 +10,15 @@
 #include "Platforms/Linux/LinuxHardwarePolicy.h"
 #endif
 #include "GCore/Interfaces/IPlatformHardwareInfo.h"
-
+#include <thread>
+#include <chrono>
 using namespace godot;
 
 DualSenseManager *DualSenseManager::singleton = nullptr;
 
 DualSenseManager::DualSenseManager() {
     singleton = this;
+    connect("device_connected",Callable(this, "_on_device_connected"));
 }
 
 DualSenseManager::~DualSenseManager() {
@@ -50,7 +51,19 @@ void DualSenseManager::_exit_tree() {
     FGodotDeviceRegistry::Shutdown();
 }
 
-void DualSenseManager::_bind_methods() {}
+void DualSenseManager::_bind_methods() {
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("test_lightbar"), &DualSenseManager::test_lightbar);
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("test_weapon"), &DualSenseManager::test_weapon);
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("test_rumble"), &DualSenseManager::test_rumble);
+
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_lightbar","color"), &DualSenseManager::set_lightbar);
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_rumble","left_rumble","right_rumble"), &DualSenseManager::set_rumble);
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_rumble_for","left_rumble","right_rumble","duration_ms"), &DualSenseManager::set_rumble_for);
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_player_leds","led_mask","brightness"), &DualSenseManager::set_player_leds);
+
+    ClassDB::add_signal("DualSenseManager", MethodInfo("device_connected", PropertyInfo(Variant::INT, "gamepad_id")));
+    ClassDB::add_signal("DualSenseManager", MethodInfo("device_disconnected", PropertyInfo(Variant::INT, "gamepad_id")));
+}
 
 void DualSenseManager::test_rumble() {
     if (const auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
@@ -63,7 +76,7 @@ void DualSenseManager::test_rumble() {
 
 void DualSenseManager::test_lightbar() {
     if (const auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
-        gamepad->SetLightbar({255, 0, 0, 0});
+        gamepad->SetLightbar({255, 255, 0, 0});
     } else {
         UtilityFunctions::print("Not found gamepad");
     }
@@ -83,27 +96,93 @@ void DualSenseManager::test_weapon() {
         UtilityFunctions::print("Not found gamepad");
     }
 }
-void DualSenseManager::test_custom_trigger() {
-    if (const auto gamepad = FGodotDeviceRegistry::GetTriggerGamepad(1)) {
-        UtilityFunctions::print("test_trigger_custom (machine 0x27) effect...");
-        // machine effects...
-        // 27 02 02 3a 0a 05
-        // 27 40 01 3a 0a 05
-        // 27 80 02 32 19 02
-        std::vector<std::uint8_t> Buffer = {0};
-        Buffer.resize(10);
-        Buffer[0] = 0x27;
-        Buffer[1] = 0x80;
-        Buffer[2] = 0x02;
-        Buffer[3] = 0x32;
-        Buffer[4] = 0x19;
-        Buffer[5] = 0x02;
-        Buffer[6] = 0;
-        Buffer[7] = 0;
-        Buffer[8] = 0;
-        Buffer[9] = 0;
-        gamepad->SetCustomTrigger(EDSGamepadHand::Left, Buffer);
+
+// --- Implementation of functions from GamepadCore/Source/Private/GImplementations/Libraries/DualSense/DualSenseLibrary.cpp ---
+
+void DualSenseManager::set_lightbar(Color color) {
+    if (const auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
+        DSCoreTypes::FDSColor newColor = {
+            static_cast<uint8_t>(color.r * 255.0f),
+            static_cast<uint8_t>(color.g * 255.0f),
+            static_cast<uint8_t>(color.b * 255.0f),
+            static_cast<uint8_t>(color.a * 255.0f)
+        };
+        gamepad->SetLightbar(newColor);
     } else {
         UtilityFunctions::print("Not found gamepad");
     }
+}
+
+void DualSenseManager::set_rumble(int left_rumble, int right_rumble) {
+    if (const auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
+        gamepad->SetVibration(static_cast<uint8_t>(left_rumble), static_cast<uint8_t>(right_rumble));
+    } else {
+        UtilityFunctions::print("Not found gamepad");
+    }
+}
+// Best would be to reimplement this in some other way, but I will stick with this
+std::atomic<int> DualSenseManager::rumble_generation = 0;
+void DualSenseManager::set_rumble_for(
+    int left_rumble,
+    int right_rumble,
+    int duration_ms
+) {
+    int gamepad_id = 1;
+
+    if (auto gamepad =
+        FGodotDeviceRegistry::GetGamepad(gamepad_id))
+    {
+        gamepad->SetVibration(
+            static_cast<uint8_t>(left_rumble),
+            static_cast<uint8_t>(right_rumble)
+        );
+
+        int my_generation = ++rumble_generation;
+
+        std::thread(
+            [gamepad_id, duration_ms, my_generation]()
+            {
+                std::this_thread::sleep_for(
+                    std::chrono::milliseconds(duration_ms)
+                );
+
+                if (my_generation != rumble_generation)
+                    return;
+
+                if (auto gamepad =
+                    FGodotDeviceRegistry::GetGamepad(gamepad_id))
+                {
+                    gamepad->SetVibration(0, 0);
+                }
+            }
+        ).detach();
+    }
+}
+void DualSenseManager::set_player_leds(GamepadDefs::LedPlayer led_mask, GamepadDefs::LedBrightness brightness){
+    if (const auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
+        gamepad->SetPlayerLed(static_cast<uint8_t>(led_mask), static_cast<uint8_t>(brightness));
+    } else {
+        UtilityFunctions::print("Not found gamepad");
+    }
+}
+void DualSenseManager::set_microphone_led(GamepadDefs::LedMic led){
+    if (const auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
+        gamepad->SetMicrophoneLed(static_cast<uint8_t>(led));
+    } else {
+        UtilityFunctions::print("Not found gamepad");
+    }
+}
+
+void DualSenseManager::set_trigger_resistance(GamepadDefs::TriggerPosition StartZone, GamepadDefs::TriggerSoftness Strength, GamepadDefs::GamepadHand Hand){
+
+    if (const auto gamepad = FGodotDeviceRegistry::GetTriggerGamepad(1)) {
+        gamepad->SetResistance(
+            static_cast<uint8_t>(StartZone),
+            static_cast<uint8_t>(Strength),
+            static_cast<EDSGamepadHand>(Hand)
+        );
+    } else {
+        UtilityFunctions::print("Not found gamepad");
+    }
+
 }

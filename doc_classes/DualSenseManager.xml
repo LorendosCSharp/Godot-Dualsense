@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DualSenseManager" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Controls the DualSense controller. Like lightbar color, rumble, and custom trigger effects.
+	</brief_description>
+	<description>
+		With this class you control the DualSense controller. Like lightbar color, rumble, and custom trigger effects.\n
+		It handles device connection and disconnection, and provides signals for those events. You can also use it to test the various features of the controller.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_rumble" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="left_rumble" type="int" />
+			<param index="1" name="right_rumble" type="int" />
+
+			<description>
+				Sets the rumble intensity for both triggers.
+			</description>
+		</method>
+		<method name="set_lightbar" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="new_color" type="Color" />
+
+			<description>
+				Sets the color of the lightbar to new_color.
+			</description>
+		</method>
+		<method name="set_lightbar" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="new_color" type="Color" />
+
+			<description>
+				Sets the color of the lightbar to new_color.
+			</description>
+		</method>
+		<method name="test_lightbar" qualifiers="static">
+			<return type="void" />
+			<description>
+				This is a test method, it will apply the red color to the lightbar.
+			</description>
+		</method>
+		<method name="test_rumble" qualifiers="static">
+			<return type="void" />
+			<description>
+				This is a test method, it will apply rumble to the controller at full intensity.
+			</description>
+		</method>
+		<method name="test_weapon" qualifiers="static">
+			<return type="void" />
+			<description>
+				This is a test method, it will apply the weapon trigger effect to the right trigger.
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="device_connected">
+			<param index="0" name="gamepad_id" type="int" />
+			<description>
+				This signal is emitted when a DualSense controller is connected. The gamepad_id parameter indicates the ID of the connected controller.
+			</description>
+		</signal>
+		<signal name="device_disconnected">
+			<param index="0" name="gamepad_id" type="int" />
+			<description>
+				This signal is emitted when a DualSense controller is disconnected. The gamepad_id parameter indicates the ID of the disconnected controller.	
+			</description>
+		</signal>
+	</signals>
+</class>

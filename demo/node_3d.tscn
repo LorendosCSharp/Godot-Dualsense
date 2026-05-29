@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://bx7k6wka5el6q"]
 
-[node name="Node3D" type="Node3D"]
+[ext_resource type="Script" uid="uid://die5sckhj3gkp" path="res://scripts/test.gd" id="1_a202f"]
 
-[node name="DualSenseManager" type="DualSenseManager" parent="."]
+[node name="Node3D" type="Node3D" unique_id=988793326]
+
+[node name="DualSenseManager" type="DualSenseManager" parent="." unique_id=1951172015]
+script = ExtResource("1_a202f")

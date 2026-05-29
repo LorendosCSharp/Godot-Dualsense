@@ -29,17 +29,13 @@ struct FGodotRegistryPolicy
     void DispatchNewGamepad(EngineIdType GamepadId)
     {
         godot::UtilityFunctions::print("[GamepadCore] DualSense Is Connected! ID: ", GamepadId);
-        DualSenseManager::get_singleton()->test_lightbar();
-        DualSenseManager::get_singleton()->test_rumble();
-        DualSenseManager::get_singleton()->test_weapon();
-        DualSenseManager::get_singleton()->test_custom_trigger();
-        // DualSenseManager::get_singleton()->emit_signal("device_connected", GamepadId);
+        DualSenseManager::get_singleton()->emit_signal("device_connected", GamepadId);
     }
 
     // Called when the controller is disconnected.
     void DisconnectDevice(EngineIdType GamepadId)
     {
         godot::UtilityFunctions::print("[GamepadCore] DualSense Disconnected! ID: ", GamepadId);
-        // DualSenseManager::get_singleton()->emit_signal("device_disconnected", GamepadId);
+        DualSenseManager::get_singleton()->emit_signal("device_disconnected", GamepadId);
     }
 };
