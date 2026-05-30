@@ -1,21 +1,20 @@
 extends DualSenseManager
 
+
+
 func _on_device_connected(device_id: int):
 	print("DualSense Connected! ID: ", device_id)
-	# Test methods available in DualSenseManager
-	#test_lightbar()   # Sets lightbar to red
-	set_player_leds(0x0, 0x0)
-	#test_rumble()     # Tests vibration
 
 func _on_device_disconnected(device_id: int):
 	print("DualSense Disconnected: ", device_id)
 	
 
+
 func changeToRandomColor():
 	var newColor:Color
 	newColor=Color.from_hsv(randf(),1,1,1)
 	print("New Color was set: ",newColor)
-	set_lightbar(newColor)
+	set_lightbar_flashing(newColor,15,2)
 	pass
 	
 func changeToRandomRumble():
@@ -60,6 +59,3 @@ func testResistance():
 	
 	pass
 	
-func getBattery():
-	print(get_battery())
-	pass

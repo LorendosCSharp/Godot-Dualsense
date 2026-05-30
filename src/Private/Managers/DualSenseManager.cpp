@@ -55,8 +55,10 @@ void DualSenseManager::_bind_methods() {
 
     ClassDB::bind_static_method("DualSenseManager", D_METHOD("get_battery"), &DualSenseManager::get_battery);
 
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("reset_lights"), &DualSenseManager::reset_lights);
 
     ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_lightbar","color"), &DualSenseManager::set_lightbar);
+    ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_lightbar_flashing","color","brightness_time","toggle_time"), &DualSenseManager::set_lightbar_flashing);
     ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_rumble","left_rumble","right_rumble"), &DualSenseManager::set_rumble);
     ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_rumble_for","left_rumble","right_rumble","duration_ms"), &DualSenseManager::set_rumble_for);
     ClassDB::bind_static_method("DualSenseManager", D_METHOD("set_player_leds","led_mask","brightness"), &DualSenseManager::set_player_leds);
@@ -80,29 +82,66 @@ void DualSenseManager::_bind_methods() {
 
 float DualSenseManager::get_battery(){
     if ( auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
-        return gamepad->GetBattery();
+        if(auto context = gamepad->GetMutableDeviceContext()){
+            FInputContext* inptut = context->GetBackBuffer();
+            return inptut->BatteryLevel;
+        }
+        return -2.0;
     }
-    return 0;
+    return -1.0;
 }
 
-
-void DualSenseManager::set_lightbar(Color color) {
+void DualSenseManager::reset_lights(){
     if (auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
-        DSCoreTypes::FDSColor newColor = {
-            static_cast<uint8_t>(color.r * 255.0f),
-            static_cast<uint8_t>(color.g * 255.0f),
-            static_cast<uint8_t>(color.b * 255.0f)
-        };
         if (auto lightbar = gamepad->GetIGamepadLightbar()) {
-            lightbar->SetLightbar(newColor);
-            gamepad->UpdateOutput();
+            lightbar->ResetLights();
         } else {
             UtilityFunctions::print("Lightbar interface not available");
         }
+        gamepad->UpdateOutput();
     } else {
         UtilityFunctions::print("Not found gamepad");
     }
 }
+
+void DualSenseManager::set_lightbar(Color color) {
+    if (auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
+        DSCoreTypes::FDSColor newColor = {
+            static_cast<uint8_t>(color.r),
+            static_cast<uint8_t>(color.g),
+            static_cast<uint8_t>(color.b),
+            static_cast<uint8_t>(color.a)
+        };
+        if (auto lightbar = gamepad->GetIGamepadLightbar()) {
+            lightbar->SetLightbar(newColor);
+        } else {
+            UtilityFunctions::print("Lightbar interface not available");
+        }
+        gamepad->UpdateOutput();
+    } else {
+        UtilityFunctions::print("Not found gamepad");
+    }
+}
+
+void DualSenseManager::set_lightbar_flashing(Color color,float brightness_time, float toggle_time) {
+    if (auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
+        DSCoreTypes::FDSColor newColor = {
+            static_cast<uint8_t>(color.r),
+            static_cast<uint8_t>(color.g),
+            static_cast<uint8_t>(color.b),
+            static_cast<uint8_t>(color.a)
+        };
+        if (auto lightbar = gamepad->GetIGamepadLightbar()) {
+            lightbar->SetLightbarFlash(newColor,brightness_time,toggle_time);
+        } else {
+            UtilityFunctions::print("Lightbar interface not available");
+        }
+        gamepad->UpdateOutput();
+    } else {
+        UtilityFunctions::print("Not found gamepad");
+    }
+}
+
 
 void DualSenseManager::set_rumble(int left_rumble, int right_rumble) {
     if (auto gamepad = FGodotDeviceRegistry::GetGamepad(1)) {
@@ -348,18 +387,18 @@ void DualSenseManager::set_trigger_stop(GamepadDefs::GamepadHand hand){
 }
 
 void DualSenseManager::send_audio_haptic(const PackedByteArray &data){
-    // if ( auto gamepad = FGodotDeviceRegistry::GetGamepad(1))
-    // {
-    //     std::vector<uint8_t> native_data;
-    //     native_data.reserve(data.size());
+    if ( auto gamepad = FGodotDeviceRegistry::GetGamepad(1))
+    {
+        std::vector<uint8_t> native_data;
+        native_data.reserve(data.size());
 
-    //     for (int i = 0; i < data.size(); i++)
-    //     {
-    //         native_data.push_back(static_cast<uint8_t>(data[i]));
-    //     }
-    //     UtilityFunctions::print(data);
-    //      auto haptics=gamepad->GetIGamepadHaptics();
-    //     haptics->AudioHapticUpdate(native_data);
-    // }
+        for (int i = 0; i < data.size(); i++)
+        {
+            native_data.push_back(static_cast<uint8_t>(data[i]));
+        }
+        UtilityFunctions::print(data);
+         auto haptics=gamepad->GetIGamepadHaptics();
+        haptics->AudioHapticUpdate(native_data);
+    }
 }
 

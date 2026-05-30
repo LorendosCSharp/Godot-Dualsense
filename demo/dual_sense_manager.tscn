@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b8r1gdl1740w3"]
 
 [ext_resource type="Script" uid="uid://die5sckhj3gkp" path="res://scripts/test.gd" id="1_mytkl"]
+[ext_resource type="Script" uid="uid://cip8x46twc07u" path="res://scripts/dynamicValues.gd" id="2_ft03c"]
 
 [node name="Node2D" type="Control" unique_id=1570054240]
 layout_mode = 3
@@ -60,6 +61,29 @@ text = "AudioHaptics"
 [node name="Resistance" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=1695884218]
 layout_mode = 2
 text = "Resistance"
+
+[node name="Info" type="Panel" parent="ElementsHolder" unique_id=671931328]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="ElementsHolder/Info" unique_id=2125374779]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Battery" type="Label" parent="ElementsHolder/Info/HBoxContainer2" unique_id=1085679669]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Battery"
+
+[node name="DynamicValues" type="Node" parent="." unique_id=2028656690 node_paths=PackedStringArray("batteryLabel")]
+script = ExtResource("2_ft03c")
+batteryLabel = NodePath("../ElementsHolder/Info/HBoxContainer2/Battery")
 
 [connection signal="pressed" from="ElementsHolder/HBoxContainer/ChangeColor" to="DualSenseManager" method="changeToRandomColor"]
 [connection signal="pressed" from="ElementsHolder/HBoxContainer/Rumble" to="DualSenseManager" method="changeToRandomRumble"]

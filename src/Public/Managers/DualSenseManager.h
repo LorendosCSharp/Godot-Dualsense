@@ -20,7 +20,10 @@ namespace godot {
 
 		static float get_battery();
 
+		static void reset_lights();
+
 		static void set_lightbar(Color color);
+		static void set_lightbar_flashing(Color color,float brightness_time, float toggle_time);
 		static void set_rumble(int left_rumble, int right_rumble);
 		static void set_rumble_for(int left_rumble, int right_rumble,int duration_ms);
 		static void set_player_leds(GamepadDefs::LedPlayer led_mask, GamepadDefs::LedBrightness brightness);
