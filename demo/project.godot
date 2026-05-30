@@ -21,6 +21,11 @@ run/main_scene="uid://b8r1gdl1740w3"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_width"
+
 [dotnet]
 
 project/assembly_name="godot cpp template"

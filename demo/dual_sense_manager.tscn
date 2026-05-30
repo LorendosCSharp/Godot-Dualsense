@@ -2,38 +2,69 @@
 
 [ext_resource type="Script" uid="uid://die5sckhj3gkp" path="res://scripts/test.gd" id="1_mytkl"]
 
-[node name="Node2D" type="Node2D" unique_id=1668375814]
-
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=600123485]
-offset_right = 1152.0
-offset_bottom = 649.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=95932686]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_vertical = 4
-alignment = 1
-
-[node name="ChangeColor" type="Button" parent="PanelContainer/HBoxContainer" unique_id=1698703590]
-layout_mode = 2
-
-[node name="Rumble" type="Button" parent="PanelContainer/HBoxContainer" unique_id=1230953675]
-layout_mode = 2
-
-[node name="RumbleFor" type="Button" parent="PanelContainer/HBoxContainer" unique_id=744982263]
-layout_mode = 2
-
-[node name="PlayerLed" type="Button" parent="PanelContainer/HBoxContainer" unique_id=277167570]
-layout_mode = 2
-
-[node name="MicLed" type="Button" parent="PanelContainer/HBoxContainer" unique_id=2031268865]
-layout_mode = 2
+[node name="Node2D" type="Control" unique_id=1570054240]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="DualSenseManager" type="DualSenseManager" parent="." unique_id=1039436175]
 script = ExtResource("1_mytkl")
 
-[connection signal="pressed" from="PanelContainer/HBoxContainer/ChangeColor" to="DualSenseManager" method="changeToRandomColor"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/Rumble" to="DualSenseManager" method="changeToRandomRumble"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/RumbleFor" to="DualSenseManager" method="changeToRandomRumbleFor"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/PlayerLed" to="DualSenseManager" method="changePlayerLeds"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/MicLed" to="DualSenseManager" method="changeMicrophoneLeds"]
+[node name="Panel" type="Panel" parent="." unique_id=618387237]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ElementsHolder" type="VBoxContainer" parent="." unique_id=86667679]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ElementsHolder" unique_id=95932686]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+alignment = 1
+
+[node name="ChangeColor" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=1698703590]
+layout_mode = 2
+text = "Color"
+
+[node name="Rumble" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=1230953675]
+layout_mode = 2
+text = "Rumble"
+
+[node name="RumbleFor" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=744982263]
+layout_mode = 2
+text = "Rumble For"
+
+[node name="PlayerLed" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=277167570]
+layout_mode = 2
+text = "Player Led"
+
+[node name="MicLed" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=2031268865]
+layout_mode = 2
+text = "MicLed"
+
+[node name="AudioHaptics" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=22526930]
+layout_mode = 2
+text = "AudioHaptics"
+
+[node name="Resistance" type="Button" parent="ElementsHolder/HBoxContainer" unique_id=1695884218]
+layout_mode = 2
+text = "Resistance"
+
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/ChangeColor" to="DualSenseManager" method="changeToRandomColor"]
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/Rumble" to="DualSenseManager" method="changeToRandomRumble"]
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/RumbleFor" to="DualSenseManager" method="changeToRandomRumbleFor"]
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/PlayerLed" to="DualSenseManager" method="changePlayerLeds"]
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/MicLed" to="DualSenseManager" method="changeMicrophoneLeds"]
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/AudioHaptics" to="DualSenseManager" method="testAudioHaptics"]
+[connection signal="pressed" from="ElementsHolder/HBoxContainer/Resistance" to="DualSenseManager" method="testResistance"]

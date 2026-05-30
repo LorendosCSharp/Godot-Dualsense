@@ -1,71 +1,253 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<class name="DualSenseManager" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="DualSenseManager" inherits="Node"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+
 	<brief_description>
-		Controls the DualSense controller. Like lightbar color, rumble, and custom trigger effects.
+		Interface for controlling DualSense (PS5 controller) lightbar, rumble, and adaptive triggers.
 	</brief_description>
+
 	<description>
-		With this class you control the DualSense controller. Like lightbar color, rumble, and custom trigger effects.\n
-		It handles device connection and disconnection, and provides signals for those events. You can also use it to test the various features of the controller.
+		Provides static access to DualSense features including LED control, vibration motors, and adaptive trigger effects.
 	</description>
+
 	<tutorials>
 	</tutorials>
+
 	<methods>
+
+		<method name="set_lightbar" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="color" type="Color" />
+
+			<description>
+Sets the controller lightbar color.
+[color=#4FC1FF]color[/color]: RGB color applied to the lightbar.
+			</description>
+		</method>
+
+		<method name="set_player_leds" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="led_mask" type="int" enum="GamepadDefs.LedPlayer" />
+			<param index="1" name="brightness" type="int" enum="GamepadDefs.LedBrightness" />
+
+			<description>
+Controls the player indicator LEDs.
+[color=#4FC1FF]led_mask[/color]: active LED bitmask.  
+[color=#4FC1FF]brightness[/color]: LED brightness level.
+			</description>
+		</method>
+
 		<method name="set_rumble" qualifiers="static">
 			<return type="void" />
 			<param index="0" name="left_rumble" type="int" />
 			<param index="1" name="right_rumble" type="int" />
 
 			<description>
-				Sets the rumble intensity for both triggers.
+Sets vibration intensity for both motors.
+[color=#4FC1FF]left_rumble[/color]: low-frequency motor intensity.  
+[color=#4FC1FF]right_rumble[/color]: high-frequency motor intensity.
 			</description>
 		</method>
-		<method name="set_lightbar" qualifiers="static">
+
+		<method name="set_rumble_for" qualifiers="static">
 			<return type="void" />
-			<param index="0" name="new_color" type="Color" />
+			<param index="0" name="left_rumble" type="int" />
+			<param index="1" name="right_rumble" type="int" />
+			<param index="2" name="duration_ms" type="int" />
 
 			<description>
-				Sets the color of the lightbar to new_color.
+Triggers a timed vibration effect.
+[color=#4FC1FF]left_rumble[/color]: low-frequency motor intensity.  
+[color=#4FC1FF]right_rumble[/color]: high-frequency motor intensity.  
+[color=#4FC1FF]duration_ms[/color]: duration in milliseconds.
 			</description>
 		</method>
-		<method name="set_lightbar" qualifiers="static">
+
+		<method name="set_trigger_bow" qualifiers="static">
 			<return type="void" />
-			<param index="0" name="new_color" type="Color" />
+			<param index="0" name="start_zone" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="1" name="snap_back" type="int" enum="GamepadDefs.SnapBack" />
+			<param index="2" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
 
 			<description>
-				Sets the color of the lightbar to new_color.
+Applies bow-style trigger resistance.
+[color=#4FC1FF]start_zone[/color]: resistance start point.  
+[color=#4FC1FF]snap_back[/color]: return behavior.  
+[color=#4FC1FF]hand[/color]: target trigger.
 			</description>
 		</method>
+
+		<method name="set_trigger_custom" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+			<param index="1" name="hex_bytes" type="PackedByteArray" />
+
+			<description>
+Applies a custom trigger effect from raw data.
+[color=#4FC1FF]hand[/color]: target trigger.  
+[color=#4FC1FF]hex_bytes[/color]: encoded effect data.
+			</description>
+		</method>
+
+		<method name="set_trigger_galloping" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start_position" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="1" name="end_position" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="2" name="first_foot" type="int" enum="GamepadDefs.TriggerAmplitude" />
+			<param index="3" name="second_foot" type="int" enum="GamepadDefs.TriggerAmplitude" />
+			<param index="4" name="frequency" type="int" />
+			<param index="5" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Simulates rhythmic trigger pulses.
+[color=#4FC1FF]start_position[/color]: effect start zone.  
+[color=#4FC1FF]end_position[/color]: effect end zone.  
+[color=#4FC1FF]first_foot[/color]: first pulse strength.  
+[color=#4FC1FF]second_foot[/color]: second pulse strength.  
+[color=#4FC1FF]frequency[/color]: pulse speed.  
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
+		<method name="set_trigger_gamecube" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Applies GameCube-style analog resistance.
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
+		<method name="set_trigger_machine" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start_zone" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="1" name="behavior_flag" type="int" enum="GamepadDefs.TriggerEffectBehavior" />
+			<param index="2" name="force" type="int" enum="GamepadDefs.TriggerForceMask" />
+			<param index="3" name="amplitude" type="int" enum="GamepadDefs.TriggerAmplitude" />
+			<param index="4" name="period" type="int" />
+			<param index="5" name="frequency" type="int" />
+			<param index="6" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Advanced procedural trigger effect.
+[color=#4FC1FF]start_zone[/color]: activation zone.  
+[color=#4FC1FF]behavior_flag[/color]: effect mode.  
+[color=#4FC1FF]force[/color]: force mask.  
+[color=#4FC1FF]amplitude[/color]: strength.  
+[color=#4FC1FF]period[/color]: cycle duration.  
+[color=#4FC1FF]frequency[/color]: oscillation rate.  
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
+		<method name="set_trigger_machine_gun" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start_zone" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="1" name="behavior" type="int" enum="GamepadDefs.TriggerEffectBehavior" />
+			<param index="2" name="amplitude" type="int" enum="GamepadDefs.TriggerAmplitude" />
+			<param index="3" name="frequency" type="int" />
+			<param index="4" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Rapid-fire trigger pulse effect.
+[color=#4FC1FF]start_zone[/color]: start zone.  
+[color=#4FC1FF]behavior[/color]: effect mode.  
+[color=#4FC1FF]amplitude[/color]: pulse strength.  
+[color=#4FC1FF]frequency[/color]: pulse rate.  
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
+		<method name="set_trigger_resistance" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start_zone" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="1" name="strength" type="int" enum="GamepadDefs.TriggerSoftness" />
+			<param index="2" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Sets constant trigger resistance.
+[color=#4FC1FF]start_zone[/color]: resistance start.  
+[color=#4FC1FF]strength[/color]: resistance level.  
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
+		<method name="set_trigger_stop" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Stops active trigger effects.
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
+		<method name="set_trigger_weapon" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start_zone" type="int" enum="GamepadDefs.TriggerPosition" />
+			<param index="1" name="amplitude" type="int" enum="GamepadDefs.TriggerAmplitude" />
+			<param index="2" name="behavior" type="int" enum="GamepadDefs.TriggerEffectBehavior" />
+			<param index="3" name="trigger" type="int" enum="GamepadDefs.TriggerForceMask" />
+			<param index="4" name="hand" type="int" enum="GamepadDefs.GamepadHand" />
+
+			<description>
+Weapon-style trigger feedback.
+[color=#4FC1FF]start_zone[/color]: resistance start zone.  
+[color=#4FC1FF]amplitude[/color]: feedback strength.  
+[color=#4FC1FF]behavior[/color]: effect mode.  
+[color=#4FC1FF]trigger[/color]: force profile.  
+[color=#4FC1FF]hand[/color]: target trigger.
+			</description>
+		</method>
+
 		<method name="test_lightbar" qualifiers="static">
 			<return type="void" />
+
 			<description>
-				This is a test method, it will apply the red color to the lightbar.
+Runs a lightbar test sequence.
 			</description>
 		</method>
+
 		<method name="test_rumble" qualifiers="static">
 			<return type="void" />
+
 			<description>
-				This is a test method, it will apply rumble to the controller at full intensity.
+Runs a rumble motor test.
 			</description>
 		</method>
+
 		<method name="test_weapon" qualifiers="static">
 			<return type="void" />
+
 			<description>
-				This is a test method, it will apply the weapon trigger effect to the right trigger.
+Runs a weapon trigger test sequence.
 			</description>
 		</method>
+
 	</methods>
+
 	<signals>
+
 		<signal name="device_connected">
 			<param index="0" name="gamepad_id" type="int" />
+
 			<description>
-				This signal is emitted when a DualSense controller is connected. The gamepad_id parameter indicates the ID of the connected controller.
+Emitted when a DualSense controller connects.
+[color=#4FC1FF]gamepad_id[/color]: controller ID.
 			</description>
 		</signal>
+
 		<signal name="device_disconnected">
 			<param index="0" name="gamepad_id" type="int" />
+
 			<description>
-				This signal is emitted when a DualSense controller is disconnected. The gamepad_id parameter indicates the ID of the disconnected controller.	
+Emitted when a DualSense controller disconnects.
+[color=#4FC1FF]gamepad_id[/color]: controller ID.
 			</description>
 		</signal>
+
 	</signals>
+
 </class>

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://4n77hoswixii"]
+
+[ext_resource type="Script" uid="uid://2u1ijbuydig5" path="res://scripts/SetEnum.gd" id="1_hlqb3"]
+
+[node name="OptionButton" type="OptionButton" unique_id=1698099095 node_paths=PackedStringArray("option_button")]
+script = ExtResource("1_hlqb3")
+option_button = NodePath(".")
+enum_name = ""

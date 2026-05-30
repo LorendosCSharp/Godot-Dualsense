@@ -27,7 +27,7 @@ public:
         }
     }
 
-    static ISonyGamepad* GetGamepad(int32_t DeviceId)
+    static IGamepadBase* GetGamepad(int32_t DeviceId)
     {
         if (RegistryInstance)
         {
@@ -36,17 +36,6 @@ public:
         return nullptr;
     }
 
-    static IGamepadTrigger* GetTriggerGamepad(int32_t DeviceId)
-    {
-        if (RegistryInstance)
-        {
-            ISonyGamepad* Gamepad = GetGamepad( DeviceId);
-            if (Gamepad) {
-                return Gamepad->GetIGamepadTrigger();
-            }
-        }
-        return nullptr;
-    }
 
 private:
     static inline std::unique_ptr<FGodotDeviceRegistryLogic> RegistryInstance = nullptr;

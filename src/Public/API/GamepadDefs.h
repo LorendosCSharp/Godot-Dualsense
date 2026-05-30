@@ -132,6 +132,18 @@ class GamepadDefs : public Object {
         ANY_HAND
     };
 
+    enum TriggerEffect {
+        RESISTANCE,
+        GALLOPING,
+        GAME_CUBE,
+        BOW,
+        WEAPON,
+        MACHINE_GUN,
+        MACHINE,
+        CUSTOM_TRIGGER,
+        STOP_TRIGGER
+    };
+
 protected:
     static void _bind_methods();
 };
@@ -153,3 +165,4 @@ VARIANT_ENUM_CAST(godot::GamepadDefs::WeaponTrigger)
 VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerEffectBehavior)
 VARIANT_ENUM_CAST(godot::GamepadDefs::AutoGunStrength)
 VARIANT_ENUM_CAST(godot::GamepadDefs::GamepadHand)
+VARIANT_ENUM_CAST(godot::GamepadDefs::TriggerEffect)

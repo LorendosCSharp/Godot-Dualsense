@@ -149,5 +149,23 @@
 		</constant>
 		<constant name="ANY_HAND" value="2" enum="GamepadHand">
 		</constant>
+		<constant name="RESISTANCE" value="0" enum="TriggerEffect">
+		</constant>
+		<constant name="GALLOPING" value="1" enum="TriggerEffect">
+		</constant>
+		<constant name="GAME_CUBE" value="2" enum="TriggerEffect">
+		</constant>
+		<constant name="BOW" value="3" enum="TriggerEffect">
+		</constant>
+		<constant name="WEAPON" value="4" enum="TriggerEffect">
+		</constant>
+		<constant name="MACHINE_GUN" value="5" enum="TriggerEffect">
+		</constant>
+		<constant name="MACHINE" value="6" enum="TriggerEffect">
+		</constant>
+		<constant name="CUSTOM_TRIGGER" value="7" enum="TriggerEffect">
+		</constant>
+		<constant name="STOP_TRIGGER" value="8" enum="TriggerEffect">
+		</constant>
 	</constants>
 </class>

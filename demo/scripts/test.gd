@@ -1,11 +1,10 @@
 extends DualSenseManager
 
-GamepadDefs.
 func _on_device_connected(device_id: int):
 	print("DualSense Connected! ID: ", device_id)
 	# Test methods available in DualSenseManager
 	#test_lightbar()   # Sets lightbar to red
-	test_weapon()     # Tests weapon effect on triggers
+	set_player_leds(0x0, 0x0)
 	#test_rumble()     # Tests vibration
 
 func _on_device_disconnected(device_id: int):
@@ -40,10 +39,27 @@ func changePlayerLeds():
 	currentLed+=1
 	if currentLed > 32:
 		currentLed=0
-		
-	set_player_leds(currentLed,0x0)
+	var customValue:int= 0x10
+	set_player_leds(customValue,GamepadDefs.LedBrightness.BRIGHTNESS_HIGH)
 	pass
-var currentMicLed:int =0x00
-func changeMicrophoneLeds():
-	output_controller()
+func testAudioHaptics():
+	var packet := PackedByteArray()
+
+	for i in range(32):
+		var v = int((sin(i * 0.4) * 0.5 + 0.5) * 255.0)
+
+		packet.append(v)
+		packet.append(v)
+		
+	send_audio_haptic(packet)
+	pass
+
+
+func testResistance():
+	set_trigger_resistance(GamepadDefs.MASK_POS_EARLY,GamepadDefs.MASK_FORCE_HIGH,GamepadDefs.LEFT_HAND)
+	
+	pass
+	
+func getBattery():
+	print(get_battery())
 	pass
